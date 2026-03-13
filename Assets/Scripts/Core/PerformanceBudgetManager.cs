@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace RagdollRealms.Core
 {
+    [DefaultExecutionOrder(-90)]
     public class PerformanceBudgetManager : MonoBehaviour, IPerformanceBudget
     {
         [Header("Budgets")]

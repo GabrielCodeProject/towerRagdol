@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace RagdollRealms.Core
 {
+    [DefaultExecutionOrder(-100)]
     public sealed class ServiceLocator : MonoBehaviour, IServiceLocator
     {
         public static ServiceLocator Instance { get; private set; }

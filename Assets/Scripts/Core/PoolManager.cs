@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace RagdollRealms.Core
 {
+    [DefaultExecutionOrder(-90)]
     public class PoolManager : MonoBehaviour, IPoolManager
     {
         private readonly Dictionary<int, Queue<Component>> _pools = new();

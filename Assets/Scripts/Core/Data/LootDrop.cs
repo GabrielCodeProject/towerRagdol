@@ -1,10 +1,10 @@
-using RagdollRealms.Content;
+using UnityEngine;
 
 namespace RagdollRealms.Core.Data
 {
     public struct LootDrop
     {
-        public ItemDefinition Item;
+        public ScriptableObject Item;
         public int Quantity;
     }
 }

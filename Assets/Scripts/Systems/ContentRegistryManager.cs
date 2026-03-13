@@ -27,6 +27,7 @@ namespace RagdollRealms.Systems
             RegisterRegistry<SkillTreeDefinition>("SkillTrees");
             RegisterRegistry<LootTableDefinition>("LootTables");
             RegisterRegistry<BalanceProfileDefinition>("Balance");
+            RegisterRegistry<RagdollConfigDefinition>("RagdollConfigs");
         }
 
         private void RegisterRegistry<T>(string resourcePath) where T : ContentDefinition
@@ -53,6 +54,7 @@ namespace RagdollRealms.Systems
             ServiceLocator.Instance.Unregister<IContentRegistry<SkillTreeDefinition>>();
             ServiceLocator.Instance.Unregister<IContentRegistry<LootTableDefinition>>();
             ServiceLocator.Instance.Unregister<IContentRegistry<BalanceProfileDefinition>>();
+            ServiceLocator.Instance.Unregister<IContentRegistry<RagdollConfigDefinition>>();
         }
     }
 }

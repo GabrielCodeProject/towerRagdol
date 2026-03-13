@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace RagdollRealms.Core
 {
+    [DefaultExecutionOrder(-90)]
     public sealed class EventBus : MonoBehaviour, IEventBus
     {
         private readonly Dictionary<Type, Delegate> _handlers = new();

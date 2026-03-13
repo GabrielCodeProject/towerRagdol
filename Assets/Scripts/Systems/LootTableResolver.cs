@@ -13,7 +13,12 @@ namespace RagdollRealms.Systems
             ServiceLocator.Instance.Register<ILootTableResolver>(this);
         }
 
-        public List<LootDrop> Roll(LootTableDefinition table, SeededRandom random, IReadOnlyList<string> contextTags = null, int maxDepth = 5)
+        public List<LootDrop> Roll(ScriptableObject tableAsset, SeededRandom random, IReadOnlyList<string> contextTags = null, int maxDepth = 5)
+        {
+            return Roll(tableAsset as LootTableDefinition, random, contextTags, maxDepth);
+        }
+
+        private List<LootDrop> Roll(LootTableDefinition table, SeededRandom random, IReadOnlyList<string> contextTags, int maxDepth)
         {
             var drops = new List<LootDrop>();
             if (table == null || random == null || maxDepth <= 0) return drops;
