@@ -1,0 +1,16 @@
+{
+    "name": "RagdollRealms.Content",
+    "rootNamespace": "RagdollRealms.Content",
+    "references": [
+        "RagdollRealms.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

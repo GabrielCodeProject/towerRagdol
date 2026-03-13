@@ -1,0 +1,16 @@
+{
+    "name": "RagdollRealms.UI",
+    "rootNamespace": "RagdollRealms.UI",
+    "references": [
+        "RagdollRealms.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

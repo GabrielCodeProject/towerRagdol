@@ -1,0 +1,17 @@
+{
+    "name": "RagdollRealms.Networking",
+    "rootNamespace": "RagdollRealms.Networking",
+    "references": [
+        "RagdollRealms.Core",
+        "RagdollRealms.Systems"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
