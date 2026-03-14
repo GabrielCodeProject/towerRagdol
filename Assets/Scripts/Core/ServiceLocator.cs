@@ -20,6 +20,7 @@ namespace RagdollRealms.Core
             }
 
             Instance = this;
+            transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
         }
 

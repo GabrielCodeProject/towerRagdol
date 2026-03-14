@@ -72,4 +72,4 @@ sysinfo.txt
 nuget.config
 
 # Claude Code
-.claude/output/
+.claude/
