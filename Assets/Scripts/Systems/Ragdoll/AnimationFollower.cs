@@ -160,6 +160,9 @@ namespace RagdollRealms.Systems.Ragdoll
             _animSkeleton.transform.position = transform.position;
             _animSkeleton.transform.rotation = transform.rotation;
 
+            // Skip joint updates while kinematic (warmup phase)
+            if (_controller.HipRigidbody != null && _controller.HipRigidbody.isKinematic) return;
+
             // Apply animation targets using proper joint-space conversion
             for (int i = 0; i < _joints.Length; i++)
             {

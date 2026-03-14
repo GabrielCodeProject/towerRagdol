@@ -136,10 +136,11 @@ namespace RagdollRealms.Systems.Player
                 );
             }
 
-            // Move via physics to avoid joint stretching
+            // Move root transform directly — hip joints lock linear axes,
+            // so physics-based movement (velocity/MovePosition) gets fought by constraints.
+            // Transform movement shifts the entire joint system as a unit.
             float speed = _config.MoveSpeed * (IsSprinting ? _config.SprintMultiplier : 1f);
-            Vector3 targetPosition = _hipRigidbody.position + MovementDirection * speed * Time.fixedDeltaTime;
-            _hipRigidbody.MovePosition(targetPosition);
+            transform.position += MovementDirection * speed * Time.fixedDeltaTime;
         }
 
         private void PublishSpeedIfChanged(float speed)
