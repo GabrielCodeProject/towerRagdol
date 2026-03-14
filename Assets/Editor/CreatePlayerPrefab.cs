@@ -388,7 +388,9 @@ namespace RagdollRealms.Editor
         {
             var controllerPath = "Assets/Resources/RagdollAnimator.controller";
 
-            // Load animation clips
+            // Load animation clips — two-pass to avoid race condition:
+            // Pass 1: ensure all FBX files are imported as Humanoid with looping
+            // Pass 2: load clips after reimport has completed
             AnimationClip idleClip = null;
             AnimationClip walkClip = null;
             AnimationClip goofyClip = null;
@@ -396,16 +398,30 @@ namespace RagdollRealms.Editor
             if (AssetDatabase.IsValidFolder("Assets/Models/Animations"))
             {
                 var guids = AssetDatabase.FindAssets("t:Model", new[] { "Assets/Models/Animations" });
+
+                // Pass 1: Ensure import settings (may trigger reimport)
                 foreach (var guid in guids)
                 {
                     var path = AssetDatabase.GUIDToAssetPath(guid);
+                    EnsureAnimationImportSettings(path);
+                }
+
+                // Let reimported assets finish processing
+                AssetDatabase.Refresh();
+
+                // Pass 2: Load clips after all reimports are complete
+                foreach (var guid in guids)
+                {
+                    var path = AssetDatabase.GUIDToAssetPath(guid);
+                    if (string.IsNullOrEmpty(path)) continue;
                     var fileName = System.IO.Path.GetFileNameWithoutExtension(path).ToLower();
 
-                    // Ensure humanoid and looping
-                    EnsureAnimationImportSettings(path);
-
                     var clip = LoadFirstAnimationClip(path);
-                    if (clip == null) continue;
+                    if (clip == null)
+                    {
+                        Debug.LogWarning($"[CreatePlayerPrefab] No animation clip found in {path}");
+                        continue;
+                    }
 
                     if (fileName.Contains("idle") || fileName.Contains("happy"))
                         idleClip = clip;
@@ -670,8 +686,11 @@ namespace RagdollRealms.Editor
             if (!AssetDatabase.IsValidFolder("Assets/Resources"))
                 AssetDatabase.CreateFolder("Assets", "Resources");
 
-            AssetDatabase.CreateAsset(asset, path);
-            AssetDatabase.SaveAssets();
+            // Write as JSON text file — Input System requires .inputactions to be JSON,
+            // not Unity YAML (AssetDatabase.CreateAsset would produce YAML → DefaultAsset)
+            System.IO.File.WriteAllText(path, asset.ToJson());
+            AssetDatabase.Refresh();
+            asset = AssetDatabase.LoadAssetAtPath<InputActionAsset>(path);
             Debug.Log($"[CreatePlayerPrefab] Input Action Asset created at {path}");
             return asset;
         }
