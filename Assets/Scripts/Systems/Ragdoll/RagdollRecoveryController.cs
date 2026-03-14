@@ -132,10 +132,11 @@ namespace RagdollRealms.Systems.Ragdoll
 
             public void Enter()
             {
+                _parent._forceReceiver.SetAnimatorEnabled(true);
                 _parent._animFollower.SetEnabled(true);
                 _parent._animFollower.BlendWeight = 0f;
                 _recoveryStartTime = Time.time;
-                _parent._eventBus.Publish(new OnRagdollRecoveryStarted(_parent.gameObject.GetInstanceID()));
+                _parent._eventBus?.Publish(new OnRagdollRecoveryStarted(_parent.gameObject.GetInstanceID()));
             }
 
             public void Update()
@@ -156,7 +157,7 @@ namespace RagdollRealms.Systems.Ragdoll
             {
                 _parent._controller.SetJointSpringMultiplier(1f);
                 _parent._forceReceiver.DeactivateRagdoll();
-                _parent._eventBus.Publish(new OnRagdollRecovered(_parent.gameObject.GetInstanceID()));
+                _parent._eventBus?.Publish(new OnRagdollRecovered(_parent.gameObject.GetInstanceID()));
             }
         }
     }

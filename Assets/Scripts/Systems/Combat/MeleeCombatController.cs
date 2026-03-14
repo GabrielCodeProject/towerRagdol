@@ -29,6 +29,7 @@ namespace RagdollRealms.Systems.Combat
             if (Time.time - _lastHitTime < _hitCooldown)
                 return;
 
+            if (_rigidbody == null) return;
             float velocity = _rigidbody.linearVelocity.magnitude;
 
             if (velocity < _minVelocityToDamage)
@@ -51,7 +52,7 @@ namespace RagdollRealms.Systems.Combat
                 receiver.ApplyForce(force, ForceType.Impact, collision.rigidbody);
             }
 
-            _eventBus.Publish(new OnMeleeHit(
+            _eventBus?.Publish(new OnMeleeHit(
                 gameObject.GetInstanceID(),
                 targetId,
                 damage,

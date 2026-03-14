@@ -11,8 +11,8 @@ using RagdollRealms.Systems.Ragdoll;
 public class RagdollForceTestHelper : MonoBehaviour
 {
     [Header("Force Settings")]
-    [SerializeField] private float _pushForce = 20f;
-    [SerializeField] private float _explosionForce = 40f;
+    [SerializeField] private float _pushForce = 80f;
+    [SerializeField] private float _explosionForce = 120f;
     [SerializeField] private Vector3 _pushDirection = Vector3.back;
 
     private Vector3 _startPosition;
@@ -76,11 +76,6 @@ public class RagdollForceTestHelper : MonoBehaviour
 
     private void ResetRagdoll()
     {
-        _controller?.SetKinematic(true);
-
-        transform.position = _startPosition;
-        transform.rotation = _startRotation;
-
         if (_controller != null)
         {
             foreach (var body in _controller.AllBodies)
@@ -89,6 +84,11 @@ public class RagdollForceTestHelper : MonoBehaviour
                 body.angularVelocity = Vector3.zero;
             }
         }
+
+        _controller?.SetKinematic(true);
+
+        transform.position = _startPosition;
+        transform.rotation = _startRotation;
 
         if (_controller is ISpawnable spawnable)
             spawnable.Initialize();

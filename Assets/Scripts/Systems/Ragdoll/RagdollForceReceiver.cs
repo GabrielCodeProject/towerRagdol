@@ -11,12 +11,14 @@ namespace RagdollRealms.Systems.Ragdoll
 
         private IRagdollController _controller;
         private AnimationFollower _animFollower;
+        private Animator _animator;
         private IEventBus _eventBus;
 
         private void Start()
         {
             _controller = GetComponent<IRagdollController>();
             _animFollower = GetComponent<AnimationFollower>();
+            _animator = GetComponent<Animator>();
             if (ServiceLocator.Instance != null && ServiceLocator.Instance.TryGet<IEventBus>(out var bus))
                 _eventBus = bus;
         }
@@ -68,14 +70,21 @@ namespace RagdollRealms.Systems.Ragdoll
 
             _controller.IsRagdolling = true;
             _animFollower?.SetEnabled(false);
-            _eventBus.Publish(new OnRagdollActivated(gameObject.GetInstanceID(), transform.position));
+            SetAnimatorEnabled(false);
+            _eventBus?.Publish(new OnRagdollActivated(gameObject.GetInstanceID(), transform.position));
         }
 
         public void DeactivateRagdoll()
         {
             _controller.IsRagdolling = false;
             _animFollower?.SetEnabled(true);
-            _eventBus.Publish(new OnRagdollDeactivated(gameObject.GetInstanceID()));
+            SetAnimatorEnabled(true);
+            _eventBus?.Publish(new OnRagdollDeactivated(gameObject.GetInstanceID()));
+        }
+
+        public void SetAnimatorEnabled(bool enabled)
+        {
+            if (_animator != null) _animator.enabled = enabled;
         }
 
         private Rigidbody FindNearestBody(Vector3 position)
