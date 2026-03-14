@@ -18,9 +18,9 @@ MonoBehaviour:
   _icon: {fileID: 0}
   _tier: 1
   _tags: []
-  _defaultSpring: 500
-  _defaultDamper: 50
-  _maxSpringForce: 1000
+  _defaultSpring: 400
+  _defaultDamper: 40
+  _maxSpringForce: 5000
   _hipMass: 5
   _torsoMass: 3
   _limbMass: 1

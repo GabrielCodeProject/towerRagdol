@@ -23,6 +23,8 @@ namespace RagdollRealms.Systems.Ragdoll
         {
             _allJoints = GetComponentsInChildren<ConfigurableJoint>();
             _allBodies = GetComponentsInChildren<Rigidbody>();
+            // Apply joint drive settings at startup so ragdoll can stand
+            SetJointSpringMultiplier(1f);
         }
 
         public void SetJointSpringMultiplier(float multiplier)
@@ -38,6 +40,7 @@ namespace RagdollRealms.Systems.Ragdoll
             {
                 joint.angularXDrive = drive;
                 joint.angularYZDrive = drive;
+                joint.slerpDrive = drive;
             }
         }
 

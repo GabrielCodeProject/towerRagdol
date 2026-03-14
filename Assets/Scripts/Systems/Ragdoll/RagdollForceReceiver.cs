@@ -78,7 +78,8 @@ namespace RagdollRealms.Systems.Ragdoll
         {
             _controller.IsRagdolling = false;
             _animFollower?.SetEnabled(true);
-            SetAnimatorEnabled(true);
+            // Do NOT re-enable source Animator — the dual skeleton's joints
+            // are the sole bone controllers for ragdoll feel.
             _eventBus?.Publish(new OnRagdollDeactivated(gameObject.GetInstanceID()));
         }
 

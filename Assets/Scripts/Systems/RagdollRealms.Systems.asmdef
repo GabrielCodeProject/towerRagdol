@@ -5,7 +5,8 @@
         "RagdollRealms.Core",
         "RagdollRealms.Repositories",
         "RagdollRealms.Content",
-        "RagdollRealms.Factories"
+        "RagdollRealms.Factories",
+        "Unity.InputSystem"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

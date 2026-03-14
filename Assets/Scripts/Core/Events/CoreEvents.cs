@@ -112,13 +112,43 @@ namespace RagdollRealms.Core.Events
 
     public readonly struct OnPhaseChanged
     {
-        public readonly string PreviousPhase;
-        public readonly string NewPhase;
+        public readonly PhaseType PreviousPhase;
+        public readonly PhaseType NewPhase;
 
-        public OnPhaseChanged(string previousPhase, string newPhase)
+        public OnPhaseChanged(PhaseType previousPhase, PhaseType newPhase)
         {
             PreviousPhase = previousPhase;
             NewPhase = newPhase;
+        }
+    }
+
+    public readonly struct OnPhaseTimerUpdate
+    {
+        public readonly PhaseType Phase;
+        public readonly float RemainingTime;
+        public readonly float TotalTime;
+
+        public OnPhaseTimerUpdate(PhaseType phase, float remainingTime, float totalTime)
+        {
+            Phase = phase;
+            RemainingTime = remainingTime;
+            TotalTime = totalTime;
+        }
+    }
+
+    public readonly struct OnGameSessionEnd
+    {
+        public readonly bool IsVictory;
+        public readonly int WavesCompleted;
+        public readonly int EnemiesKilled;
+        public readonly float TimePlayed;
+
+        public OnGameSessionEnd(bool isVictory, int wavesCompleted, int enemiesKilled, float timePlayed)
+        {
+            IsVictory = isVictory;
+            WavesCompleted = wavesCompleted;
+            EnemiesKilled = enemiesKilled;
+            TimePlayed = timePlayed;
         }
     }
 
