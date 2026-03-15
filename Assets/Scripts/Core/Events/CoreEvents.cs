@@ -141,13 +141,15 @@ namespace RagdollRealms.Core.Events
         public readonly bool IsVictory;
         public readonly int WavesCompleted;
         public readonly int EnemiesKilled;
+        public readonly int BossesDefeated;
         public readonly float TimePlayed;
 
-        public OnGameSessionEnd(bool isVictory, int wavesCompleted, int enemiesKilled, float timePlayed)
+        public OnGameSessionEnd(bool isVictory, int wavesCompleted, int enemiesKilled, int bossesDefeated, float timePlayed)
         {
             IsVictory = isVictory;
             WavesCompleted = wavesCompleted;
             EnemiesKilled = enemiesKilled;
+            BossesDefeated = bossesDefeated;
             TimePlayed = timePlayed;
         }
     }
@@ -189,6 +191,126 @@ namespace RagdollRealms.Core.Events
         public OnPlayerDisconnected(int playerId)
         {
             PlayerId = playerId;
+        }
+    }
+
+    public readonly struct OnPrepareWarning
+    {
+        public readonly float RemainingTime;
+        public readonly int WarningIndex;
+
+        public OnPrepareWarning(float remainingTime, int warningIndex)
+        {
+            RemainingTime = remainingTime;
+            WarningIndex = warningIndex;
+        }
+    }
+
+    public readonly struct OnPlayerReadyChanged
+    {
+        public readonly int PlayerId;
+        public readonly bool IsReady;
+        public readonly int ReadyCount;
+        public readonly int TotalPlayers;
+
+        public OnPlayerReadyChanged(int playerId, bool isReady, int readyCount, int totalPlayers)
+        {
+            PlayerId = playerId;
+            IsReady = isReady;
+            ReadyCount = readyCount;
+            TotalPlayers = totalPlayers;
+        }
+    }
+
+    public readonly struct OnWaveAnnouncement
+    {
+        public readonly int WaveNumber;
+        public readonly int EnemyCount;
+
+        public OnWaveAnnouncement(int waveNumber, int enemyCount)
+        {
+            WaveNumber = waveNumber;
+            EnemyCount = enemyCount;
+        }
+    }
+
+    public readonly struct OnTransitionReport
+    {
+        public readonly int WaveNumber;
+        public readonly int EnemiesKilled;
+        public readonly int StructuresDamaged;
+
+        public OnTransitionReport(int waveNumber, int enemiesKilled, int structuresDamaged)
+        {
+            WaveNumber = waveNumber;
+            EnemiesKilled = enemiesKilled;
+            StructuresDamaged = structuresDamaged;
+        }
+    }
+
+    public readonly struct OnDifficultyEscalation
+    {
+        public readonly int NextWaveNumber;
+
+        public OnDifficultyEscalation(int nextWaveNumber)
+        {
+            NextWaveNumber = nextWaveNumber;
+        }
+    }
+
+    public readonly struct OnPlayerReviveStarted
+    {
+        public readonly int ReviverId;
+        public readonly int DownedPlayerId;
+
+        public OnPlayerReviveStarted(int reviverId, int downedPlayerId)
+        {
+            ReviverId = reviverId;
+            DownedPlayerId = downedPlayerId;
+        }
+    }
+
+    public readonly struct OnPlayerReviveProgress
+    {
+        public readonly int DownedPlayerId;
+        public readonly float Progress;
+
+        public OnPlayerReviveProgress(int downedPlayerId, float progress)
+        {
+            DownedPlayerId = downedPlayerId;
+            Progress = progress;
+        }
+    }
+
+    public readonly struct OnPlayerRevived
+    {
+        public readonly int PlayerId;
+        public readonly int ReviverId;
+
+        public OnPlayerRevived(int playerId, int reviverId)
+        {
+            PlayerId = playerId;
+            ReviverId = reviverId;
+        }
+    }
+
+    public readonly struct OnAllPlayersDowned
+    {
+        public readonly float RespawnTimer;
+
+        public OnAllPlayersDowned(float respawnTimer)
+        {
+            RespawnTimer = respawnTimer;
+        }
+    }
+
+    public readonly struct OnVictoryCelebration
+    {
+        public readonly bool EndlessModeUnlocked;
+
+        public OnVictoryCelebration(bool endlessModeUnlocked)
+        {
+            EndlessModeUnlocked = endlessModeUnlocked;
         }
     }
 }

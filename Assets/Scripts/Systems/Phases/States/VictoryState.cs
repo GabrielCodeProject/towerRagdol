@@ -18,14 +18,17 @@ namespace RagdollRealms.Systems.Phases.States
 
         public void Enter()
         {
+            bool endlessModeUnlocked = _manager.Config.EndlessModeWaveThreshold <= 0
+                || _manager.CurrentWaveNumber >= _manager.Config.EndlessModeWaveThreshold;
+
             _eventBus.Publish(new OnPhaseChanged(_manager.PreviousPhase, PhaseType.Victory));
+            _eventBus.Publish(new OnVictoryCelebration(endlessModeUnlocked));
             _eventBus.Publish(new OnGameSessionEnd(
                 true,
                 _manager.CurrentWaveNumber,
                 _manager.EnemiesKilled,
+                _manager.BossesDefeated,
                 Time.time - _manager.GameStartTime));
-
-            Debug.Log("[VictoryState] Victory!");
         }
 
         public void Update() { }

@@ -22,6 +22,22 @@ namespace RagdollRealms.Content
         [SerializeField] private bool _canCraftDuringDefend = false;
         [SerializeField] private bool _canRepairDuringDefend = true;
 
+        [Header("Ready-Up")]
+        [SerializeField, Range(0.5f, 1f)] private float _readyUpMajorityThreshold = 0.5f;
+
+        [Header("Player Down / Revive")]
+        [SerializeField] private float _reviveDuration = 3f;
+        [SerializeField] private float _respawnTimerDuration = 15f;
+        [SerializeField] private float _downedMoveSpeedMultiplier = 0.3f;
+
+        [Header("Transition Report")]
+        [SerializeField] private float _transitionReportDuration = 3f;
+
+        [Header("Victory")]
+        [Tooltip("Total waves to complete for victory. 0 = endless (no victory).")]
+        [SerializeField] private int _maxWaves = 10;
+        [SerializeField] private int _endlessModeWaveThreshold = 0;
+
         public float PrepareTimerDuration => _prepareTimerDuration;
         public IReadOnlyList<float> PrepareWarningThresholds => _prepareWarningThresholds;
         public float TransitionDuration => _transitionDuration;
@@ -29,5 +45,12 @@ namespace RagdollRealms.Content
         public bool CanBuildDuringDefend => _canBuildDuringDefend;
         public bool CanCraftDuringDefend => _canCraftDuringDefend;
         public bool CanRepairDuringDefend => _canRepairDuringDefend;
+        public float ReadyUpMajorityThreshold => _readyUpMajorityThreshold;
+        public float ReviveDuration => _reviveDuration;
+        public float RespawnTimerDuration => _respawnTimerDuration;
+        public float DownedMoveSpeedMultiplier => _downedMoveSpeedMultiplier;
+        public float TransitionReportDuration => _transitionReportDuration;
+        public int MaxWaves => _maxWaves;
+        public int EndlessModeWaveThreshold => _endlessModeWaveThreshold;
     }
 }

@@ -22,10 +22,14 @@ namespace RagdollRealms.Systems.Phases.States
 
         public void Enter()
         {
-            _timeRemaining = _config.TransitionDuration;
+            _timeRemaining = _config.TransitionDuration + _config.TransitionReportDuration;
             _manager.CurrentWaveNumber++;
 
             _eventBus.Publish(new OnPhaseChanged(_manager.PreviousPhase, PhaseType.Transition));
+            _eventBus.Publish(new OnTransitionReport(
+                _manager.CurrentWaveNumber,
+                _manager.EnemiesKilled,
+                _manager.StructuresDamaged));
         }
 
         public void Update()
@@ -35,6 +39,15 @@ namespace RagdollRealms.Systems.Phases.States
             if (_timeRemaining <= 0f)
             {
                 _manager.PreviousPhase = PhaseType.Transition;
+
+                if (_config.MaxWaves > 0 && _manager.CurrentWaveNumber >= _config.MaxWaves)
+                {
+                    _manager.TransitionTo<VictoryState>();
+                    return;
+                }
+
+                int nextWave = _manager.CurrentWaveNumber + 1;
+                _eventBus.Publish(new OnDifficultyEscalation(nextWave));
 
                 if (_config.BossWaveInterval > 0
                     && _manager.CurrentWaveNumber % _config.BossWaveInterval == 0)

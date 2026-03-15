@@ -28,6 +28,10 @@ namespace RagdollRealms.Systems.Phases.States
             _eventBus.Subscribe(_onCoreHit);
 
             _eventBus.Publish(new OnPhaseChanged(_manager.PreviousPhase, PhaseType.Defend));
+
+            int waveNumber = _manager.CurrentWaveNumber + 1;
+            _eventBus.Publish(new OnWaveAnnouncement(waveNumber, 0));
+            _eventBus.Publish(new OnWaveStart(waveNumber, 0));
         }
 
         public void Update() { }

@@ -19,18 +19,25 @@ namespace RagdollRealms.Systems.Phases
         private readonly HashSet<int> _readyPlayers = new();
         private int _trackedPlayerCount = 1;
         private Action<OnEnemyKilled> _onEnemyKilled;
+        private Action<OnBossDefeated> _onBossDefeated;
+        private Action<OnCoreHit> _onCoreHitTracker;
+        private Action<OnPlayerConnected> _onPlayerConnected;
+        private Action<OnPlayerDisconnected> _onPlayerDisconnected;
 
         public PhaseType CurrentPhase { get; private set; }
         public PhaseType PreviousPhase { get; internal set; }
         public float PrepareTimeRemaining { get; internal set; }
         public int CurrentWaveNumber { get; internal set; }
         public int EnemiesKilled { get; private set; }
+        public int BossesDefeated { get; private set; }
+        public int StructuresDamaged { get; private set; }
         public float GameStartTime { get; private set; }
+
+        internal PhaseConfigDefinition Config => _config;
 
         private void Awake()
         {
             ServiceLocator.Instance.Register<IPhaseManager>(this);
-            Debug.Log("[PhaseManager] Registered IPhaseManager.");
         }
 
         private void Start()
@@ -55,9 +62,16 @@ namespace RagdollRealms.Systems.Phases
             _stateMachine.AddState(new VictoryState(this, _eventBus));
 
             _onEnemyKilled = HandleEnemyKilled;
-            _eventBus.Subscribe(_onEnemyKilled);
+            _onBossDefeated = HandleBossDefeated;
+            _onCoreHitTracker = HandleCoreHitTracker;
+            _onPlayerConnected = HandlePlayerConnected;
+            _onPlayerDisconnected = HandlePlayerDisconnected;
 
-            Debug.Log("[PhaseManager] Initialized with config: " + _config.name);
+            _eventBus.Subscribe(_onEnemyKilled);
+            _eventBus.Subscribe(_onBossDefeated);
+            _eventBus.Subscribe(_onCoreHitTracker);
+            _eventBus.Subscribe(_onPlayerConnected);
+            _eventBus.Subscribe(_onPlayerDisconnected);
         }
 
         private void Update()
@@ -73,10 +87,11 @@ namespace RagdollRealms.Systems.Phases
                 return;
             }
 
-            Debug.Log("[PhaseManager] StartGame() called.");
             GameStartTime = Time.time;
             CurrentWaveNumber = 0;
             EnemiesKilled = 0;
+            BossesDefeated = 0;
+            StructuresDamaged = 0;
             PreviousPhase = PhaseType.Prepare;
             CurrentPhase = PhaseType.Prepare;
 
@@ -85,14 +100,25 @@ namespace RagdollRealms.Systems.Phases
 
         public void PlayerReady(int playerId)
         {
+            if (!IsInPhase(PhaseType.Prepare)) return;
+
             _readyPlayers.Add(playerId);
 
-            if (_readyPlayers.Count >= _trackedPlayerCount && IsInPhase(PhaseType.Prepare))
+            _eventBus.Publish(new OnPlayerReadyChanged(
+                playerId, true, _readyPlayers.Count, _trackedPlayerCount));
+
+            int requiredCount = Mathf.CeilToInt(_trackedPlayerCount * _config.ReadyUpMajorityThreshold);
+            if (_readyPlayers.Count >= requiredCount)
             {
                 _readyPlayers.Clear();
                 PreviousPhase = PhaseType.Prepare;
                 TransitionTo<DefendState>();
             }
+        }
+
+        internal void ClearReadyPlayers()
+        {
+            _readyPlayers.Clear();
         }
 
         public bool IsInPhase(PhaseType phase)
@@ -121,6 +147,27 @@ namespace RagdollRealms.Systems.Phases
             EnemiesKilled++;
         }
 
+        private void HandleBossDefeated(OnBossDefeated evt)
+        {
+            BossesDefeated++;
+        }
+
+        private void HandleCoreHitTracker(OnCoreHit evt)
+        {
+            StructuresDamaged++;
+        }
+
+        private void HandlePlayerConnected(OnPlayerConnected evt)
+        {
+            _trackedPlayerCount++;
+        }
+
+        private void HandlePlayerDisconnected(OnPlayerDisconnected evt)
+        {
+            _trackedPlayerCount = Mathf.Max(1, _trackedPlayerCount - 1);
+            _readyPlayers.Remove(evt.PlayerId);
+        }
+
         private static PhaseType StateToPhaseType(Type stateType)
         {
             if (stateType == typeof(PrepareState)) return PhaseType.Prepare;
@@ -137,6 +184,10 @@ namespace RagdollRealms.Systems.Phases
             if (_eventBus != null)
             {
                 _eventBus.Unsubscribe(_onEnemyKilled);
+                _eventBus.Unsubscribe(_onBossDefeated);
+                _eventBus.Unsubscribe(_onCoreHitTracker);
+                _eventBus.Unsubscribe(_onPlayerConnected);
+                _eventBus.Unsubscribe(_onPlayerDisconnected);
             }
 
             if (ServiceLocator.Instance == null) return;

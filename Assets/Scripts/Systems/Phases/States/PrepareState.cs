@@ -29,6 +29,7 @@ namespace RagdollRealms.Systems.Phases.States
             _nextWarningIndex = 0;
             _lastPublishedSecond = -1;
             _manager.PrepareTimeRemaining = _timeRemaining;
+            _manager.ClearReadyPlayers();
 
             _eventBus.Publish(new OnPhaseChanged(_manager.PreviousPhase, PhaseType.Prepare));
         }
@@ -51,6 +52,7 @@ namespace RagdollRealms.Systems.Phases.States
             if (_nextWarningIndex < thresholds.Count
                 && _timeRemaining <= thresholds[_nextWarningIndex])
             {
+                _eventBus.Publish(new OnPrepareWarning(_timeRemaining, _nextWarningIndex));
                 _nextWarningIndex++;
             }
 

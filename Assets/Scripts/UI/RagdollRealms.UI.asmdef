@@ -2,7 +2,8 @@
     "name": "RagdollRealms.UI",
     "rootNamespace": "RagdollRealms.UI",
     "references": [
-        "RagdollRealms.Core"
+        "RagdollRealms.Core",
+        "Unity.ugui"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

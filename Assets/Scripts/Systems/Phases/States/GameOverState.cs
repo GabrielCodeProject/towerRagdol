@@ -23,9 +23,8 @@ namespace RagdollRealms.Systems.Phases.States
                 false,
                 _manager.CurrentWaveNumber,
                 _manager.EnemiesKilled,
+                _manager.BossesDefeated,
                 Time.time - _manager.GameStartTime));
-
-            Debug.Log("[GameOverState] Game Over.");
         }
 
         public void Update() { }
