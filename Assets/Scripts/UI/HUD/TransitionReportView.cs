@@ -10,31 +10,22 @@ namespace RagdollRealms.UI.HUD
     {
         [SerializeField] private GameObject _reportPanel;
         [SerializeField] private Text _reportLabel;
-        [SerializeField] private float _displayDuration = 4f;
 
         private IEventBus _eventBus;
         private Action<OnTransitionReport> _onReport;
-        private float _hideTimer;
+        private Action<OnPhaseChanged> _onPhaseChanged;
 
         private void Start()
         {
             _eventBus = ServiceLocator.Instance.Get<IEventBus>();
 
             _onReport = HandleReport;
+            _onPhaseChanged = HandlePhaseChanged;
             _eventBus.Subscribe(_onReport);
+            _eventBus.Subscribe(_onPhaseChanged);
 
             if (_reportPanel != null)
                 _reportPanel.SetActive(false);
-        }
-
-        private void Update()
-        {
-            if (_hideTimer > 0f)
-            {
-                _hideTimer -= Time.deltaTime;
-                if (_hideTimer <= 0f && _reportPanel != null)
-                    _reportPanel.SetActive(false);
-            }
         }
 
         private void HandleReport(OnTransitionReport evt)
@@ -49,14 +40,19 @@ namespace RagdollRealms.UI.HUD
                     $"Enemies Killed: {evt.EnemiesKilled}\n" +
                     $"Structures Hit: {evt.StructuresDamaged}";
             }
+        }
 
-            _hideTimer = _displayDuration;
+        private void HandlePhaseChanged(OnPhaseChanged evt)
+        {
+            if (evt.NewPhase != PhaseType.Transition && _reportPanel != null)
+                _reportPanel.SetActive(false);
         }
 
         private void OnDestroy()
         {
             if (_eventBus == null) return;
             _eventBus.Unsubscribe(_onReport);
+            _eventBus.Unsubscribe(_onPhaseChanged);
         }
     }
 }

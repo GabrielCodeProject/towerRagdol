@@ -15,7 +15,6 @@ namespace RagdollRealms.UI.HUD
         [SerializeField] private int _localPlayerId;
 
         private IEventBus _eventBus;
-        private IPhaseManager _phaseManager;
         private Action<OnPhaseChanged> _onPhaseChanged;
         private Action<OnPlayerReadyChanged> _onReadyChanged;
         private bool _isReady;
@@ -23,7 +22,6 @@ namespace RagdollRealms.UI.HUD
         private void Start()
         {
             _eventBus = ServiceLocator.Instance.Get<IEventBus>();
-            _phaseManager = ServiceLocator.Instance.Get<IPhaseManager>();
 
             _onPhaseChanged = HandlePhaseChanged;
             _onReadyChanged = HandleReadyChanged;
@@ -42,7 +40,7 @@ namespace RagdollRealms.UI.HUD
         {
             if (_isReady) return;
             _isReady = true;
-            _phaseManager.PlayerReady(_localPlayerId);
+            _eventBus.Publish(new OnPlayerReadyRequested(_localPlayerId));
 
             if (_buttonLabel != null)
                 _buttonLabel.text = "READY!";

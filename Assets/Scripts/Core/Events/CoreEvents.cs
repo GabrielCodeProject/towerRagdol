@@ -294,6 +294,16 @@ namespace RagdollRealms.Core.Events
         }
     }
 
+    public readonly struct OnPlayerReadyRequested
+    {
+        public readonly int PlayerId;
+
+        public OnPlayerReadyRequested(int playerId)
+        {
+            PlayerId = playerId;
+        }
+    }
+
     public readonly struct OnAllPlayersDowned
     {
         public readonly float RespawnTimer;

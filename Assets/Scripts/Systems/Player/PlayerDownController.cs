@@ -31,6 +31,13 @@ namespace RagdollRealms.Systems.Player
 
         private void Start()
         {
+            if (_config == null)
+            {
+                Debug.LogError("[PlayerDownController] _config is not assigned! Drag PhaseConfig into the Config field.");
+                enabled = false;
+                return;
+            }
+
             _eventBus = ServiceLocator.Instance.Get<IEventBus>();
 
             _onPlayerDowned = HandlePlayerDowned;
@@ -85,7 +92,7 @@ namespace RagdollRealms.Systems.Player
         {
             if (_activeRevives.Count == 0) return;
 
-            float reviveDuration = _config != null ? _config.ReviveDuration : 3f;
+            float reviveDuration = _config.ReviveDuration;
             var completed = new List<int>();
 
             foreach (var kvp in _activeRevives)
@@ -100,10 +107,6 @@ namespace RagdollRealms.Systems.Player
                 {
                     completed.Add(downedId);
                     _eventBus.Publish(new OnPlayerRevived(downedId, state.ReviverId));
-                }
-                else
-                {
-                    _activeRevives[downedId] = state;
                 }
             }
 
@@ -131,15 +134,15 @@ namespace RagdollRealms.Systems.Player
 
         private void HandlePlayerDowned(OnPlayerDowned evt)
         {
+            if (!_allPlayers.Contains(evt.PlayerId)) return;
+
             _downedPlayers.Add(evt.PlayerId);
-            _allPlayers.Add(evt.PlayerId);
 
             if (_allPlayers.Count > 0 && _downedPlayers.Count >= _allPlayers.Count)
             {
                 _allDowned = true;
-                float timer = _config != null ? _config.RespawnTimerDuration : 15f;
-                _respawnTimer = timer;
-                _eventBus.Publish(new OnAllPlayersDowned(timer));
+                _respawnTimer = _config.RespawnTimerDuration;
+                _eventBus.Publish(new OnAllPlayersDowned(_respawnTimer));
             }
         }
 

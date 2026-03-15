@@ -18,7 +18,8 @@ MonoBehaviour:
   _icon: {fileID: 0}
   _tier: 1
   _tags: []
-  _moveSpeed: 8
+  _moveSpeed: 5
+  _rotationSpeed: 8
   _sprintMultiplier: 1.6
   _jumpForce: 7
   _groundCheckDistance: 1.8

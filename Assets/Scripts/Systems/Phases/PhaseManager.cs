@@ -23,6 +23,7 @@ namespace RagdollRealms.Systems.Phases
         private Action<OnCoreHit> _onCoreHitTracker;
         private Action<OnPlayerConnected> _onPlayerConnected;
         private Action<OnPlayerDisconnected> _onPlayerDisconnected;
+        private Action<OnPlayerReadyRequested> _onPlayerReadyRequested;
 
         public PhaseType CurrentPhase { get; private set; }
         public PhaseType PreviousPhase { get; internal set; }
@@ -66,12 +67,14 @@ namespace RagdollRealms.Systems.Phases
             _onCoreHitTracker = HandleCoreHitTracker;
             _onPlayerConnected = HandlePlayerConnected;
             _onPlayerDisconnected = HandlePlayerDisconnected;
+            _onPlayerReadyRequested = HandlePlayerReadyRequested;
 
             _eventBus.Subscribe(_onEnemyKilled);
             _eventBus.Subscribe(_onBossDefeated);
             _eventBus.Subscribe(_onCoreHitTracker);
             _eventBus.Subscribe(_onPlayerConnected);
             _eventBus.Subscribe(_onPlayerDisconnected);
+            _eventBus.Subscribe(_onPlayerReadyRequested);
         }
 
         private void Update()
@@ -157,6 +160,11 @@ namespace RagdollRealms.Systems.Phases
             StructuresDamaged++;
         }
 
+        private void HandlePlayerReadyRequested(OnPlayerReadyRequested evt)
+        {
+            PlayerReady(evt.PlayerId);
+        }
+
         private void HandlePlayerConnected(OnPlayerConnected evt)
         {
             _trackedPlayerCount++;
@@ -188,6 +196,7 @@ namespace RagdollRealms.Systems.Phases
                 _eventBus.Unsubscribe(_onCoreHitTracker);
                 _eventBus.Unsubscribe(_onPlayerConnected);
                 _eventBus.Unsubscribe(_onPlayerDisconnected);
+                _eventBus.Unsubscribe(_onPlayerReadyRequested);
             }
 
             if (ServiceLocator.Instance == null) return;
