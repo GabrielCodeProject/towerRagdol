@@ -119,4 +119,22 @@ namespace RagdollRealms.Core.Events
             ThrowForce = throwForce;
         }
     }
+
+    public readonly struct OnBoneCollisionImpact
+    {
+        public readonly int EntityId;
+        public readonly int JointIndex;
+        public readonly Vector3 Force;
+        public readonly Vector3 ContactPoint;
+        public readonly float ForceMagnitude;
+
+        public OnBoneCollisionImpact(int entityId, int jointIndex, Vector3 force, Vector3 contactPoint, float forceMagnitude)
+        {
+            EntityId = entityId;
+            JointIndex = jointIndex;
+            Force = force;
+            ContactPoint = contactPoint;
+            ForceMagnitude = forceMagnitude;
+        }
+    }
 }

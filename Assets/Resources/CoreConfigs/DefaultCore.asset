@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea91c6e6c21d2cc43826572f824d3624, type: 3}
+  m_Name: DefaultCore
+  m_EditorClassIdentifier: RagdollRealms.Content::RagdollRealms.Content.CoreDefinition
+  _id: default-core
+  _displayName: Crystal Core
+  _description: The heart of your base. Protect it at all costs.
+  _icon: {fileID: 0}
+  _tier: 1
+  _tags: []
+  _baseHp: 1000
+  _healingAuraRadius: 12
+  _healingAuraRate: 3
+  _alarmBaseRange: 25
+  _corePrefab: {fileID: 0}
+  _crackStagePrefabs: []
+  _shieldBubblePrefab: {fileID: 0}
+  _auraParticlesPrefab: {fileID: 0}
+  _alarmPulsePrefab: {fileID: 0}
+  _upgradeTiers:
+  - HpMultiplier: 1.25
+    ShieldCapacity: 100
+    AuraRadiusMultiplier: 1.1
+    AuraRateMultiplier: 1.1
+    AlarmRangeMultiplier: 1.1
+  - HpMultiplier: 1.5
+    ShieldCapacity: 200
+    AuraRadiusMultiplier: 1.25
+    AuraRateMultiplier: 1.25
+    AlarmRangeMultiplier: 1.25
+  - HpMultiplier: 1.75
+    ShieldCapacity: 350
+    AuraRadiusMultiplier: 1.5
+    AuraRateMultiplier: 1.5
+    AlarmRangeMultiplier: 1.5
+  - HpMultiplier: 2
+    ShieldCapacity: 500
+    AuraRadiusMultiplier: 2
+    AuraRateMultiplier: 2
+    AlarmRangeMultiplier: 2

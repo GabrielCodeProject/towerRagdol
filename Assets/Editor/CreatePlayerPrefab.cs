@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using RagdollRealms.Systems.Ragdoll;
 
 namespace RagdollRealms.Editor
 {
@@ -224,6 +225,14 @@ namespace RagdollRealms.Editor
             playerRoot.AddComponent<RagdollRealms.Systems.Ragdoll.RagdollForceReceiver>();
             playerRoot.AddComponent<RagdollRealms.Systems.Ragdoll.RagdollRecoveryController>();
             playerRoot.AddComponent<RagdollRealms.Systems.Ragdoll.RagdollLODController>();
+
+            var collisionHandler = playerRoot.AddComponent<RagdollCollisionHandler>();
+            var joints = playerRoot.GetComponentsInChildren<ConfigurableJoint>();
+            for (int i = 0; i < joints.Length; i++)
+            {
+                var reporter = joints[i].gameObject.AddComponent<BoneCollisionReporter>();
+                reporter.Initialize(collisionHandler, i, playerRoot.transform);
+            }
 
             Debug.Log($"[CreatePlayerPrefab] Rigged {boneRigidbodies.Count} bones with ragdoll physics.");
         }

@@ -323,4 +323,60 @@ namespace RagdollRealms.Core.Events
             EndlessModeUnlocked = endlessModeUnlocked;
         }
     }
+
+    public readonly struct OnCoreHealthChanged
+    {
+        public readonly float CurrentHp;
+        public readonly float MaxHp;
+        public readonly float ShieldHp;
+        public readonly float MaxShieldHp;
+
+        public OnCoreHealthChanged(float currentHp, float maxHp, float shieldHp, float maxShieldHp)
+        {
+            CurrentHp = currentHp;
+            MaxHp = maxHp;
+            ShieldHp = shieldHp;
+            MaxShieldHp = maxShieldHp;
+        }
+    }
+
+    public readonly struct OnCoreDestroyed { }
+
+    public readonly struct OnCoreUpgraded
+    {
+        public readonly int NewTier;
+        public readonly string UpgradeType;
+
+        public OnCoreUpgraded(int newTier, string upgradeType)
+        {
+            NewTier = newTier;
+            UpgradeType = upgradeType;
+        }
+    }
+
+    public readonly struct OnCoreShieldChanged
+    {
+        public readonly float CurrentShield;
+        public readonly float MaxShield;
+
+        public OnCoreShieldChanged(float currentShield, float maxShield)
+        {
+            CurrentShield = currentShield;
+            MaxShield = maxShield;
+        }
+    }
+
+    public readonly struct OnCoreAlarmTriggered
+    {
+        public readonly Vector3 EnemyDirection;
+        public readonly float EnemyDistance;
+        public readonly bool IsPriority;
+
+        public OnCoreAlarmTriggered(Vector3 enemyDirection, float enemyDistance, bool isPriority)
+        {
+            EnemyDirection = enemyDirection;
+            EnemyDistance = enemyDistance;
+            IsPriority = isPriority;
+        }
+    }
 }

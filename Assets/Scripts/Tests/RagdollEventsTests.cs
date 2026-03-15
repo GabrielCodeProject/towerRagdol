@@ -100,5 +100,19 @@ namespace RagdollRealms.Tests
             Assert.AreEqual(8, evt.TargetId);
             Assert.AreEqual(throwForce, evt.ThrowForce);
         }
+
+        [Test]
+        public void OnBoneCollisionImpact_Constructor_StoresValues()
+        {
+            var force = new Vector3(3f, -1f, 0f);
+            var contactPoint = new Vector3(0f, 1.5f, 2f);
+            var evt = new OnBoneCollisionImpact(42, 3, force, contactPoint, 5.5f);
+
+            Assert.AreEqual(42, evt.EntityId);
+            Assert.AreEqual(3, evt.JointIndex);
+            Assert.AreEqual(force, evt.Force);
+            Assert.AreEqual(contactPoint, evt.ContactPoint);
+            Assert.AreEqual(5.5f, evt.ForceMagnitude, 0.0001f);
+        }
     }
 }

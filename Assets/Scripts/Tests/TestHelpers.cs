@@ -28,6 +28,11 @@ namespace RagdollRealms.Tests
 
         public float BalanceSensitivity { get; set; } = 1f;
         public float GetUpSpringMultiplier { get; set; } = 2f;
+
+        public float CollisionSpringReduction { get; set; } = 0.7f;
+        public float CollisionRecoverySpeed { get; set; } = 3f;
+        public float MinCollisionForce { get; set; } = 2f;
+        public float CollisionPropagationFactor { get; set; } = 0.3f;
     }
 
     public static class TestServiceHelpers

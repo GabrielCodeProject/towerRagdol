@@ -265,6 +265,7 @@ GameObject:
   - component: {fileID: 1830705073889275427}
   - component: {fileID: 4346721860593192193}
   - component: {fileID: 3463483806271138300}
+  - component: {fileID: 6328886797715600011}
   m_Layer: 0
   m_Name: mixamorig1:LeftArm
   m_TagString: Untagged
@@ -440,6 +441,18 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &6328886797715600011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995494579342945913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc692b8ce2c0fe54683d7043eb29215f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RagdollRealms.Systems::RagdollRealms.Systems.Ragdoll.BoneCollisionReporter
 --- !u!1 &1123220590846553136
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,6 +853,7 @@ GameObject:
   - component: {fileID: 2780831532446657224}
   - component: {fileID: 338955745222039283}
   - component: {fileID: 5332210068606637395}
+  - component: {fileID: 8822420968296054166}
   m_Layer: 0
   m_Name: mixamorig1:LeftUpLeg
   m_TagString: Untagged
@@ -1015,6 +1029,18 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &8822420968296054166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2574256163363776454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc692b8ce2c0fe54683d7043eb29215f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RagdollRealms.Systems::RagdollRealms.Systems.Ragdoll.BoneCollisionReporter
 --- !u!1 &2714919785918501376
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,6 +1053,7 @@ GameObject:
   - component: {fileID: 3092452125138568605}
   - component: {fileID: 5034137091156379511}
   - component: {fileID: 5957319144469750871}
+  - component: {fileID: 8168277729437007574}
   m_Layer: 0
   m_Name: mixamorig1:RightArm
   m_TagString: Untagged
@@ -1202,6 +1229,18 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &8168277729437007574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2714919785918501376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc692b8ce2c0fe54683d7043eb29215f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RagdollRealms.Systems::RagdollRealms.Systems.Ragdoll.BoneCollisionReporter
 --- !u!1 &2841952386086707678
 GameObject:
   m_ObjectHideFlags: 0
@@ -1278,6 +1317,7 @@ GameObject:
   - component: {fileID: 5196585641816897673}
   - component: {fileID: 5494522966223646781}
   - component: {fileID: 7790822159619080704}
+  - component: {fileID: 7175645697170204886}
   m_Layer: 0
   m_Name: mixamorig1:RightLeg
   m_TagString: Untagged
@@ -1453,6 +1493,18 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &7175645697170204886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2900314703796976179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc692b8ce2c0fe54683d7043eb29215f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RagdollRealms.Systems::RagdollRealms.Systems.Ragdoll.BoneCollisionReporter
 --- !u!1 &3127193447369059444
 GameObject:
   m_ObjectHideFlags: 0
@@ -1656,6 +1708,7 @@ GameObject:
   - component: {fileID: 8652628681264632424}
   - component: {fileID: 2165940671475148250}
   - component: {fileID: 9036856481766715648}
+  - component: {fileID: 6934996440659838894}
   m_Layer: 0
   m_Name: mixamorig1:RightUpLeg
   m_TagString: Untagged
@@ -1831,6 +1884,18 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &6934996440659838894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3865862690170194991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc692b8ce2c0fe54683d7043eb29215f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RagdollRealms.Systems::RagdollRealms.Systems.Ragdoll.BoneCollisionReporter
 --- !u!1 &3913457166132426729
 GameObject:
   m_ObjectHideFlags: 0
@@ -1973,6 +2038,7 @@ GameObject:
   - component: {fileID: 4560435259570509147}
   - component: {fileID: 1572713805017848892}
   - component: {fileID: 8148511381597927321}
+  - component: {fileID: 2855993151736631589}
   - component: {fileID: 4806560520690540997}
   - component: {fileID: 1224004341408106255}
   - component: {fileID: 4995688480485241426}
@@ -2085,6 +2151,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: RagdollRealms.Systems::RagdollRealms.Systems.Ragdoll.RagdollLODController
   _checkInterval: 10
+--- !u!114 &2855993151736631589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4691720429928441170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac5549c3ef7851489457476f2ced341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RagdollRealms.Systems::RagdollRealms.Systems.Ragdoll.RagdollCollisionHandler
 --- !u!114 &4806560520690540997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2097,10 +2175,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b7aa77dccde6cf06843a3d333b19e83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: RagdollRealms.Systems::RagdollRealms.Systems.Player.PlayerInputController
-  _moveAction: {fileID: -1246895598473198080, guid: 1878c5b48c232a5c8900889a8ccb4d94, type: 3}
-  _jumpAction: {fileID: 335763634227698153, guid: 1878c5b48c232a5c8900889a8ccb4d94, type: 3}
-  _sprintAction: {fileID: 7983440169816151513, guid: 1878c5b48c232a5c8900889a8ccb4d94, type: 3}
-  _lookAction: {fileID: 6940538419726410420, guid: 1878c5b48c232a5c8900889a8ccb4d94, type: 3}
+  _moveAction: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  _jumpAction: {fileID: -2099379676528639254, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  _sprintAction: {fileID: -7471211009204490832, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  _lookAction: {fileID: -5630151704836100654, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   _playerId: 0
 --- !u!114 &1224004341408106255
 MonoBehaviour:
@@ -2271,6 +2349,7 @@ GameObject:
   - component: {fileID: 2987786196757328782}
   - component: {fileID: 6361548008631716670}
   - component: {fileID: 6954059255172797137}
+  - component: {fileID: 6753585012251438183}
   m_Layer: 0
   m_Name: mixamorig1:RightFoot
   m_TagString: Untagged
@@ -2446,6 +2525,18 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &6753585012251438183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5469051424701683090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc692b8ce2c0fe54683d7043eb29215f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RagdollRealms.Systems::RagdollRealms.Systems.Ragdoll.BoneCollisionReporter
 --- !u!1 &5501011802440744187
 GameObject:
   m_ObjectHideFlags: 0
@@ -2495,6 +2586,7 @@ GameObject:
   - component: {fileID: 1768970377229384767}
   - component: {fileID: 9041432811282095752}
   - component: {fileID: 8998093487695298106}
+  - component: {fileID: 559091588150433201}
   m_Layer: 0
   m_Name: mixamorig1:LeftForeArm
   m_TagString: Untagged
@@ -2687,6 +2779,18 @@ MonoBehaviour:
   _minVelocityToDamage: 1
   _hitCooldown: 0.3
   _knockbackForceMultiplier: 5
+--- !u!114 &559091588150433201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5738794389244164839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc692b8ce2c0fe54683d7043eb29215f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RagdollRealms.Systems::RagdollRealms.Systems.Ragdoll.BoneCollisionReporter
 --- !u!1 &5938983495375635304
 GameObject:
   m_ObjectHideFlags: 0
@@ -2831,6 +2935,7 @@ GameObject:
   - component: {fileID: 6451996446446572846}
   - component: {fileID: 2027106530457723577}
   - component: {fileID: 3749628383267636783}
+  - component: {fileID: 2806633762364518390}
   m_Layer: 0
   m_Name: mixamorig1:Head
   m_TagString: Untagged
@@ -3006,6 +3111,18 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &2806633762364518390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6783659612578638066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc692b8ce2c0fe54683d7043eb29215f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RagdollRealms.Systems::RagdollRealms.Systems.Ragdoll.BoneCollisionReporter
 --- !u!1 &6991458055591631868
 GameObject:
   m_ObjectHideFlags: 0
@@ -3336,6 +3453,7 @@ GameObject:
   - component: {fileID: 8667283486121569728}
   - component: {fileID: 4826690535838449639}
   - component: {fileID: 1590774538923651756}
+  - component: {fileID: 8314355207960102709}
   m_Layer: 0
   m_Name: mixamorig1:LeftFoot
   m_TagString: Untagged
@@ -3511,6 +3629,18 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &8314355207960102709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7702478165837626748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc692b8ce2c0fe54683d7043eb29215f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RagdollRealms.Systems::RagdollRealms.Systems.Ragdoll.BoneCollisionReporter
 --- !u!1 &7882887111084218532
 GameObject:
   m_ObjectHideFlags: 0
@@ -3555,6 +3685,7 @@ GameObject:
   - component: {fileID: 4794235767564185959}
   - component: {fileID: 6303836764834256281}
   - component: {fileID: 8579365081030797593}
+  - component: {fileID: 1469682963142845404}
   m_Layer: 0
   m_Name: mixamorig1:Spine1
   m_TagString: Untagged
@@ -3730,6 +3861,18 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &1469682963142845404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8035183124246467195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc692b8ce2c0fe54683d7043eb29215f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RagdollRealms.Systems::RagdollRealms.Systems.Ragdoll.BoneCollisionReporter
 --- !u!1 &8375618624183790177
 GameObject:
   m_ObjectHideFlags: 0
@@ -3806,6 +3949,7 @@ GameObject:
   - component: {fileID: 7507390781570599347}
   - component: {fileID: 2764752416537231455}
   - component: {fileID: 4305616115920276113}
+  - component: {fileID: 8560060892301825655}
   m_Layer: 0
   m_Name: mixamorig1:RightForeArm
   m_TagString: Untagged
@@ -3998,6 +4142,18 @@ MonoBehaviour:
   _minVelocityToDamage: 1
   _hitCooldown: 0.3
   _knockbackForceMultiplier: 5
+--- !u!114 &8560060892301825655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716482801746759611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc692b8ce2c0fe54683d7043eb29215f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RagdollRealms.Systems::RagdollRealms.Systems.Ragdoll.BoneCollisionReporter
 --- !u!1 &8803577236838710230
 GameObject:
   m_ObjectHideFlags: 0
@@ -4072,6 +4228,7 @@ GameObject:
   - component: {fileID: 7243707906669371838}
   - component: {fileID: 2711198116320652760}
   - component: {fileID: 3304316868420138043}
+  - component: {fileID: 1268432815901521667}
   m_Layer: 0
   m_Name: mixamorig1:LeftLeg
   m_TagString: Untagged
@@ -4247,6 +4404,18 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &1268432815901521667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8839949589903302904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc692b8ce2c0fe54683d7043eb29215f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RagdollRealms.Systems::RagdollRealms.Systems.Ragdoll.BoneCollisionReporter
 --- !u!1 &9065937350748624579
 GameObject:
   m_ObjectHideFlags: 0

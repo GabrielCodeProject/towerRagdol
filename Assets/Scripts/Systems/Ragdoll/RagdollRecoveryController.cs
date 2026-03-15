@@ -132,7 +132,10 @@ namespace RagdollRealms.Systems.Ragdoll
 
             public void Enter()
             {
-                _parent._forceReceiver.SetAnimatorEnabled(true);
+                // Do NOT re-enable source Animator — dual skeleton pattern uses
+                // the hidden _AnimSkeleton's Animator, not the source. Re-enabling
+                // the source Animator causes it to directly drive bone transforms,
+                // overriding all ConfigurableJoint physics.
                 _parent._animFollower.SetEnabled(true);
                 _parent._animFollower.BlendWeight = 0f;
                 _recoveryStartTime = Time.time;

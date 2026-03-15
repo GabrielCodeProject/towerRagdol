@@ -37,6 +37,12 @@ namespace RagdollRealms.Content
         [SerializeField] private float _balanceSensitivity = 1f;
         [SerializeField] private float _getUpSpringMultiplier = 2f;
 
+        [Header("Collision Response")]
+        [SerializeField] private float _collisionSpringReduction = 0.95f;
+        [SerializeField] private float _collisionRecoverySpeed = 2f;
+        [SerializeField] private float _minCollisionForce = 1f;
+        [SerializeField] private float _collisionPropagationFactor = 0.3f;
+
         public float DefaultSpring => _defaultSpring;
         public float DefaultDamper => _defaultDamper;
         public float MaxSpringForce => _maxSpringForce;
@@ -60,5 +66,10 @@ namespace RagdollRealms.Content
 
         public float BalanceSensitivity => _balanceSensitivity;
         public float GetUpSpringMultiplier => _getUpSpringMultiplier;
+
+        public float CollisionSpringReduction => _collisionSpringReduction;
+        public float CollisionRecoverySpeed => _collisionRecoverySpeed;
+        public float MinCollisionForce => _minCollisionForce;
+        public float CollisionPropagationFactor => _collisionPropagationFactor;
     }
 }

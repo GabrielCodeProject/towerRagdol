@@ -33,6 +33,8 @@ namespace RagdollRealms.Systems.Ragdoll
 
         private bool _enabled = true;
         private float _blendWeight = 1f;
+        private float[] _perJointBlendWeights;
+        private float[] _lastAppliedWeights;
         private bool _initialized;
         private Coroutine _warmupCoroutine;
 
@@ -93,6 +95,14 @@ namespace RagdollRealms.Systems.Ragdoll
                 Vector3 up = Vector3.Cross(forward, right).normalized;
                 _worldToJointSpace[i] = Quaternion.LookRotation(forward, up);
                 _inverseWorldToJointSpace[i] = Quaternion.Inverse(_worldToJointSpace[i]);
+            }
+
+            _perJointBlendWeights = new float[count];
+            _lastAppliedWeights = new float[count];
+            for (int i = 0; i < count; i++)
+            {
+                _perJointBlendWeights[i] = 1f;
+                _lastAppliedWeights[i] = 1f;
             }
 
             BuildAnimationSkeleton();
@@ -156,6 +166,12 @@ namespace RagdollRealms.Systems.Ragdoll
         {
             if (!_enabled || !_initialized || _controller == null) return;
 
+            // Safety: source Animator must NEVER be enabled — it would directly
+            // drive bone transforms, overriding all ConfigurableJoint physics.
+            // The hidden _AnimSkeleton's Animator is the sole animation source.
+            if (_sourceAnimator != null && _sourceAnimator.enabled)
+                _sourceAnimator.enabled = false;
+
             // Keep duplicate skeleton root in sync with physics root
             _animSkeleton.transform.position = transform.position;
             _animSkeleton.transform.rotation = transform.rotation;
@@ -163,17 +179,41 @@ namespace RagdollRealms.Systems.Ragdoll
             // Skip joint updates while kinematic (warmup phase)
             if (_controller.HipRigidbody != null && _controller.HipRigidbody.isKinematic) return;
 
-            // Apply animation targets using proper joint-space conversion
+            // Apply animation targets and spring multipliers per-joint.
+            // When a joint's blend weight is low (collision wobble), we SKIP
+            // setting its target rotation so physics forces can actually move it.
+            // We also interpolate the target toward identity (rest pose) based on
+            // impact intensity, letting the bone go loose under external forces.
             for (int i = 0; i < _joints.Length; i++)
             {
-                if (_targetBones[i] == null) continue;
-                SetTargetRotationLocal(
-                    _joints[i], i,
-                    _targetBones[i].localRotation
-                );
-            }
+                float effectiveWeight = _blendWeight * _perJointBlendWeights[i];
 
-            _controller.SetJointSpringMultiplier(_blendWeight);
+                if (_targetBones[i] != null)
+                {
+                    if (effectiveWeight > 0.99f)
+                    {
+                        // Fully animated — set exact animation target
+                        SetTargetRotationLocal(_joints[i], i, _targetBones[i].localRotation);
+                    }
+                    else if (effectiveWeight > 0.01f)
+                    {
+                        // Partially impacted — blend between animation and current pose.
+                        // Lower weight = target closer to current rotation = less pull-back force.
+                        Quaternion animTarget = _targetBones[i].localRotation;
+                        Quaternion currentLocal = _joints[i].transform.localRotation;
+                        Quaternion blended = Quaternion.Slerp(currentLocal, animTarget, effectiveWeight);
+                        SetTargetRotationLocal(_joints[i], i, blended);
+                    }
+                    // effectiveWeight <= 0.01: don't touch target at all — bone is fully loose
+                }
+
+                // Only update spring multiplier if weight changed to avoid redundant calls
+                if (Mathf.Abs(effectiveWeight - _lastAppliedWeights[i]) > 0.001f)
+                {
+                    _controller.SetJointSpringMultiplier(i, effectiveWeight);
+                    _lastAppliedWeights[i] = effectiveWeight;
+                }
+            }
         }
 
         /// <summary>
@@ -219,6 +259,18 @@ namespace RagdollRealms.Systems.Ragdoll
         public void SetEnabled(bool enabled)
         {
             _enabled = enabled;
+        }
+
+        public void SetJointBlendWeight(int jointIndex, float weight)
+        {
+            if (_perJointBlendWeights == null || jointIndex < 0 || jointIndex >= _perJointBlendWeights.Length) return;
+            _perJointBlendWeights[jointIndex] = Mathf.Clamp01(weight);
+        }
+
+        public float GetJointBlendWeight(int jointIndex)
+        {
+            if (_perJointBlendWeights == null || jointIndex < 0 || jointIndex >= _perJointBlendWeights.Length) return 1f;
+            return _perJointBlendWeights[jointIndex];
         }
 
         private void OnDestroy()

@@ -25,5 +25,10 @@ namespace RagdollRealms.Core
 
         float BalanceSensitivity { get; }
         float GetUpSpringMultiplier { get; }
+
+        float CollisionSpringReduction { get; }
+        float CollisionRecoverySpeed { get; }
+        float MinCollisionForce { get; }
+        float CollisionPropagationFactor { get; }
     }
 }

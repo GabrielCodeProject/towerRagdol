@@ -173,5 +173,40 @@ namespace RagdollRealms.Tests
             Assert.AreEqual(250f, testConfig.DefaultSpring);
             Assert.AreEqual(2f, testConfig.KnockbackMultiplier);
         }
+
+        [Test]
+        public void RagdollConfigDefinition_CollisionSpringReduction_IsCorrect()
+        {
+            Assert.AreEqual(0.7f, _config.CollisionSpringReduction, 0.0001f);
+        }
+
+        [Test]
+        public void RagdollConfigDefinition_CollisionRecoverySpeed_IsCorrect()
+        {
+            Assert.AreEqual(3f, _config.CollisionRecoverySpeed);
+        }
+
+        [Test]
+        public void RagdollConfigDefinition_MinCollisionForce_IsCorrect()
+        {
+            Assert.AreEqual(2f, _config.MinCollisionForce);
+        }
+
+        [Test]
+        public void RagdollConfigDefinition_CollisionPropagationFactor_IsCorrect()
+        {
+            Assert.AreEqual(0.3f, _config.CollisionPropagationFactor, 0.0001f);
+        }
+
+        [Test]
+        public void TestRagdollConfig_CollisionDefaults_AreCorrect()
+        {
+            var testConfig = new TestRagdollConfig();
+
+            Assert.AreEqual(0.7f, testConfig.CollisionSpringReduction, 0.0001f);
+            Assert.AreEqual(3f, testConfig.CollisionRecoverySpeed);
+            Assert.AreEqual(2f, testConfig.MinCollisionForce);
+            Assert.AreEqual(0.3f, testConfig.CollisionPropagationFactor, 0.0001f);
+        }
     }
 }

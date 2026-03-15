@@ -5,6 +5,7 @@ using UnityEditor.SceneManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using RagdollRealms.Systems.Ragdoll;
 
 namespace RagdollRealms.Editor
 {
@@ -560,6 +561,15 @@ namespace RagdollRealms.Editor
             ragdollRoot.AddComponent<RagdollRealms.Systems.Ragdoll.RagdollForceReceiver>();
             ragdollRoot.AddComponent<RagdollRealms.Systems.Ragdoll.RagdollRecoveryController>();
             ragdollRoot.AddComponent<RagdollRealms.Systems.Ragdoll.RagdollLODController>();
+
+            var collisionHandler = ragdollRoot.AddComponent<RagdollCollisionHandler>();
+            var joints = ragdollRoot.GetComponentsInChildren<ConfigurableJoint>();
+            for (int i = 0; i < joints.Length; i++)
+            {
+                var reporter = joints[i].gameObject.AddComponent<BoneCollisionReporter>();
+                reporter.Initialize(collisionHandler, i, ragdollRoot.transform);
+            }
+
             ragdollRoot.AddComponent<RagdollForceTestHelper>();
         }
 

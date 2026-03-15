@@ -30,6 +30,7 @@ namespace RagdollRealms.Systems
             RegisterRegistry<RagdollConfigDefinition>("RagdollConfigs");
             RegisterRegistry<PhaseConfigDefinition>("PhaseConfigs");
             RegisterRegistry<PlayerConfigDefinition>("PlayerConfigs");
+            RegisterRegistry<CoreDefinition>("CoreConfigs");
         }
 
         private void RegisterRegistry<T>(string resourcePath) where T : ContentDefinition
@@ -59,6 +60,7 @@ namespace RagdollRealms.Systems
             ServiceLocator.Instance.Unregister<IContentRegistry<RagdollConfigDefinition>>();
             ServiceLocator.Instance.Unregister<IContentRegistry<PhaseConfigDefinition>>();
             ServiceLocator.Instance.Unregister<IContentRegistry<PlayerConfigDefinition>>();
+            ServiceLocator.Instance.Unregister<IContentRegistry<CoreDefinition>>();
         }
     }
 }
