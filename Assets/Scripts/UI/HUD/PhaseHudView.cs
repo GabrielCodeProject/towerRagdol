@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using RagdollRealms.Core;
 using RagdollRealms.Core.Events;
 using UnityEngine.UI;
@@ -16,7 +17,7 @@ namespace RagdollRealms.UI.HUD
         private Action<OnPhaseChanged> _onPhaseChanged;
         private Action<OnPhaseTimerUpdate> _onTimerUpdate;
         private Action<OnPrepareWarning> _onWarning;
-        private float _warningFlashTimer;
+        private Coroutine _warningCoroutine;
 
         private void Start()
         {
@@ -35,16 +36,6 @@ namespace RagdollRealms.UI.HUD
 
             if (_timerLabel != null)
                 _timerLabel.gameObject.SetActive(false);
-        }
-
-        private void Update()
-        {
-            if (_warningFlashTimer > 0f)
-            {
-                _warningFlashTimer -= Time.deltaTime;
-                if (_warningFlashTimer <= 0f && _warningIndicator != null)
-                    _warningIndicator.SetActive(false);
-            }
         }
 
         private void HandlePhaseChanged(OnPhaseChanged evt)
@@ -75,15 +66,28 @@ namespace RagdollRealms.UI.HUD
 
         private void HandleWarning(OnPrepareWarning evt)
         {
+            if (_warningIndicator == null) return;
+
+            _warningIndicator.SetActive(true);
+
+            if (_warningCoroutine != null)
+                StopCoroutine(_warningCoroutine);
+            _warningCoroutine = StartCoroutine(HideWarningAfterDelay());
+        }
+
+        private IEnumerator HideWarningAfterDelay()
+        {
+            yield return new WaitForSeconds(2f);
             if (_warningIndicator != null)
-            {
-                _warningIndicator.SetActive(true);
-                _warningFlashTimer = 2f;
-            }
+                _warningIndicator.SetActive(false);
+            _warningCoroutine = null;
         }
 
         private void OnDestroy()
         {
+            if (_warningCoroutine != null)
+                StopCoroutine(_warningCoroutine);
+
             if (_eventBus == null) return;
             _eventBus.Unsubscribe(_onPhaseChanged);
             _eventBus.Unsubscribe(_onTimerUpdate);

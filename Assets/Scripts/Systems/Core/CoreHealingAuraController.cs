@@ -17,13 +17,23 @@ namespace RagdollRealms.Systems.CoreBase
         private IEventBus _eventBus;
         private ICoreManager _coreManager;
         private Action<OnCoreUpgraded> _onCoreUpgraded;
+        private Coroutine _healingCoroutine;
 
         private static readonly Collider[] _overlapBuffer = new Collider[8];
 
         private void Start()
         {
-            _eventBus = ServiceLocator.Instance.Get<IEventBus>();
-            _coreManager = ServiceLocator.Instance.Get<ICoreManager>();
+            if (!ServiceLocator.Instance.TryGet(out _eventBus))
+            {
+                Debug.LogError("[CoreHealingAura] IEventBus not registered.");
+                return;
+            }
+
+            if (!ServiceLocator.Instance.TryGet(out _coreManager))
+            {
+                Debug.LogError("[CoreHealingAura] ICoreManager not registered.");
+                return;
+            }
 
             _effectiveRadius = _coreManager.HealingAuraRadius;
             _effectiveRate = _coreManager.HealingAuraRate;
@@ -33,7 +43,7 @@ namespace RagdollRealms.Systems.CoreBase
             _onCoreUpgraded = HandleCoreUpgraded;
             _eventBus.Subscribe(_onCoreUpgraded);
 
-            StartCoroutine(HealingTickRoutine());
+            _healingCoroutine = StartCoroutine(HealingTickRoutine());
         }
 
         private IEnumerator HealingTickRoutine()
@@ -42,15 +52,19 @@ namespace RagdollRealms.Systems.CoreBase
             while (true)
             {
                 yield return wait;
-                if (_coreManager == null || _coreManager.IsDestroyed) continue;
+
+                if (_coreManager is MonoBehaviour mb && mb == null) yield break;
+                if (_coreManager.IsDestroyed) continue;
 
                 int count = Physics.OverlapSphereNonAlloc(
                     transform.position, _effectiveRadius, _overlapBuffer, _playerLayerMask);
 
+                float healAmount = _effectiveRate * _tickInterval;
                 for (int i = 0; i < count; i++)
                 {
-                    // Actual player healing depends on the player health system.
-                    // A future PlayerHealthManager will consume heal requests.
+                    var playerCtrl = _overlapBuffer[i].transform.root.GetComponent<IPlayerController>();
+                    if (playerCtrl == null) continue;
+                    _eventBus.Publish(new OnCoreHealRequest(playerCtrl.PlayerId, healAmount));
                 }
             }
         }
@@ -75,6 +89,9 @@ namespace RagdollRealms.Systems.CoreBase
 
         private void OnDestroy()
         {
+            if (_healingCoroutine != null)
+                StopCoroutine(_healingCoroutine);
+
             if (_eventBus != null)
                 _eventBus.Unsubscribe(_onCoreUpgraded);
         }

@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using UnityEngine;
-using System.Reflection;
 using RagdollRealms.Core;
 using RagdollRealms.Content;
 using RagdollRealms.Systems.Ragdoll;
@@ -38,15 +37,15 @@ namespace RagdollRealms.Tests
             _controller = _root.AddComponent<RagdollController>();
             _config = ScriptableObject.CreateInstance<RagdollConfigDefinition>();
 
-            SetPrivateField(_controller, "_config", _config);
-            SetPrivateField(_controller, "_hipRigidbody", _rb1);
+            TestServiceHelpers.SetPrivateField(_controller, "_config", _config);
+            TestServiceHelpers.SetPrivateField(_controller, "_hipRigidbody", _rb1);
 
             // Manually populate the arrays that Awake() would gather, since Awake doesn't
             // run automatically in EditMode
             var joints = _root.GetComponentsInChildren<ConfigurableJoint>();
             var bodies = _root.GetComponentsInChildren<Rigidbody>();
-            SetPrivateField(_controller, "_allJoints", joints);
-            SetPrivateField(_controller, "_allBodies", bodies);
+            TestServiceHelpers.SetPrivateField(_controller, "_allJoints", joints);
+            TestServiceHelpers.SetPrivateField(_controller, "_allBodies", bodies);
 
             // Initialize per-joint tracking (added for collision wobble support)
             var perJointMultipliers = new float[joints.Length];
@@ -56,8 +55,8 @@ namespace RagdollRealms.Tests
                 perJointMultipliers[i] = 1f;
                 jointIndexMap[joints[i]] = i;
             }
-            SetPrivateField(_controller, "_perJointMultipliers", perJointMultipliers);
-            SetPrivateField(_controller, "_jointIndexMap", jointIndexMap);
+            TestServiceHelpers.SetPrivateField(_controller, "_perJointMultipliers", perJointMultipliers);
+            TestServiceHelpers.SetPrivateField(_controller, "_jointIndexMap", jointIndexMap);
         }
 
         [TearDown]
@@ -65,13 +64,6 @@ namespace RagdollRealms.Tests
         {
             Object.DestroyImmediate(_root);
             Object.DestroyImmediate(_config);
-        }
-
-        private static void SetPrivateField(object obj, string fieldName, object value)
-        {
-            var field = obj.GetType().GetField(fieldName,
-                BindingFlags.NonPublic | BindingFlags.Instance);
-            field?.SetValue(obj, value);
         }
 
         [Test]

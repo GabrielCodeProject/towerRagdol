@@ -379,4 +379,16 @@ namespace RagdollRealms.Core.Events
             IsPriority = isPriority;
         }
     }
+
+    public readonly struct OnCoreHealRequest
+    {
+        public readonly int PlayerId;
+        public readonly float Amount;
+
+        public OnCoreHealRequest(int playerId, float amount)
+        {
+            PlayerId = playerId;
+            Amount = amount;
+        }
+    }
 }

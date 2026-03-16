@@ -53,13 +53,13 @@ namespace RagdollRealms.UI.HUD
         {
             bool showReady = evt.NewPhase == PhaseType.Prepare;
 
+            _isReady = false;
+
             if (_readyPanel != null)
                 _readyPanel.SetActive(showReady);
 
             if (showReady)
             {
-                _isReady = false;
-
                 if (_buttonLabel != null)
                     _buttonLabel.text = "READY?";
 

@@ -34,7 +34,11 @@ namespace RagdollRealms.Debugging
         {
             yield return null;
 
-            _eventBus = ServiceLocator.Instance.Get<IEventBus>();
+            if (!ServiceLocator.Instance.TryGet(out _eventBus))
+            {
+                Debug.LogError("[PlayerStatsTestRunner] IEventBus not found.");
+                yield break;
+            }
 
             _eventBus.Publish(new OnPlayerHealthChanged(0, _currentHp, _maxHp));
             _eventBus.Publish(new OnPlayerManaChanged(0, _currentMana, _maxMana));

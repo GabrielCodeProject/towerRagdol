@@ -38,8 +38,6 @@ namespace RagdollRealms.Systems.Phases.States
 
             if (_timeRemaining <= 0f)
             {
-                _manager.PreviousPhase = PhaseType.Transition;
-
                 if (_config.MaxWaves > 0 && _manager.CurrentWaveNumber >= _config.MaxWaves)
                 {
                     _manager.TransitionTo<VictoryState>();

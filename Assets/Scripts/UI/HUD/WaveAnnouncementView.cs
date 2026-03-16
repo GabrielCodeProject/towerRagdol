@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using RagdollRealms.Core;
 using RagdollRealms.Core.Events;
 using UnityEngine.UI;
@@ -16,7 +17,7 @@ namespace RagdollRealms.UI.HUD
         private IEventBus _eventBus;
         private Action<OnWaveAnnouncement> _onAnnouncement;
         private Action<OnDifficultyEscalation> _onEscalation;
-        private float _hideTimer;
+        private Coroutine _hideCoroutine;
 
         private void Start()
         {
@@ -35,21 +36,6 @@ namespace RagdollRealms.UI.HUD
                 _escalationLabel.gameObject.SetActive(false);
         }
 
-        private void Update()
-        {
-            if (_hideTimer > 0f)
-            {
-                _hideTimer -= Time.deltaTime;
-                if (_hideTimer <= 0f)
-                {
-                    if (_announcementPanel != null)
-                        _announcementPanel.SetActive(false);
-                    if (_escalationLabel != null)
-                        _escalationLabel.gameObject.SetActive(false);
-                }
-            }
-        }
-
         private void HandleAnnouncement(OnWaveAnnouncement evt)
         {
             if (_announcementPanel != null)
@@ -58,7 +44,7 @@ namespace RagdollRealms.UI.HUD
             if (_waveLabel != null)
                 _waveLabel.text = $"WAVE {evt.WaveNumber}";
 
-            _hideTimer = _displayDuration;
+            RestartHideTimer();
         }
 
         private void HandleEscalation(OnDifficultyEscalation evt)
@@ -69,11 +55,33 @@ namespace RagdollRealms.UI.HUD
                 _escalationLabel.text = $"Next: Wave {evt.NextWaveNumber}";
             }
 
-            _hideTimer = _displayDuration;
+            RestartHideTimer();
+        }
+
+        private void RestartHideTimer()
+        {
+            if (_hideCoroutine != null)
+                StopCoroutine(_hideCoroutine);
+            _hideCoroutine = StartCoroutine(HideAfterDelay());
+        }
+
+        private IEnumerator HideAfterDelay()
+        {
+            yield return new WaitForSeconds(_displayDuration);
+
+            if (_announcementPanel != null)
+                _announcementPanel.SetActive(false);
+            if (_escalationLabel != null)
+                _escalationLabel.gameObject.SetActive(false);
+
+            _hideCoroutine = null;
         }
 
         private void OnDestroy()
         {
+            if (_hideCoroutine != null)
+                StopCoroutine(_hideCoroutine);
+
             if (_eventBus == null) return;
             _eventBus.Unsubscribe(_onAnnouncement);
             _eventBus.Unsubscribe(_onEscalation);

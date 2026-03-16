@@ -1,11 +1,14 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using RagdollRealms.Content;
 using RagdollRealms.Core;
 using RagdollRealms.Core.Events;
+using RagdollRealms.Systems.Ragdoll;
 
 namespace RagdollRealms.Systems.Player
 {
+    [DefaultExecutionOrder(-50)]
     public class PlayerMovementController : MonoBehaviour, IPlayerController
     {
         [SerializeField] private PlayerConfigDefinition _config;
@@ -15,13 +18,17 @@ namespace RagdollRealms.Systems.Player
         private PlayerInputController _inputController;
         private IEventBus _eventBus;
         private Rigidbody _hipRigidbody;
+        private IRagdollController _ragdoll;
+        private ProceduralStepController _stepController;
         private bool _movementEnabled = true;
         private bool _wasGrounded;
         private bool _initialized;
+        private bool _hipUnparented;
         private float _lastPublishedSpeed = -1f;
 
         private Action<OnJumpRequested> _onJumpRequested;
 
+        public int PlayerId => _playerId;
         public Vector3 MovementDirection { get; private set; }
         public bool IsSprinting { get; private set; }
         public bool IsGrounded { get; private set; }
@@ -42,10 +49,10 @@ namespace RagdollRealms.Systems.Player
             ServiceLocator.Instance.TryGet(out _eventBus);
             ServiceLocator.Instance.Register<IPlayerController>(this);
 
-            var ragdoll = GetComponent<IRagdollController>();
-            if (ragdoll != null)
+            _ragdoll = GetComponent<IRagdollController>();
+            if (_ragdoll != null)
             {
-                _hipRigidbody = ragdoll.HipRigidbody;
+                _hipRigidbody = _ragdoll.HipRigidbody;
             }
 
             if (_cameraTransform == null)
@@ -60,7 +67,33 @@ namespace RagdollRealms.Systems.Player
                 _eventBus.Subscribe(_onJumpRequested);
             }
 
+            _stepController = GetComponent<ProceduralStepController>();
+            _stepController?.SetGroundMask(_config.GroundLayerMask);
+
             _initialized = _hipRigidbody != null;
+
+            if (_initialized)
+            {
+                // Delay unparenting to end of frame so all Start() methods
+                // (especially AnimationFollower.BuildAnimationSkeleton) complete first.
+                StartCoroutine(DelayedUnparentHip());
+            }
+        }
+
+        private IEnumerator DelayedUnparentHip()
+        {
+            // Wait for end of frame — all Start() and first FixedUpdate done
+            yield return new WaitForEndOfFrame();
+
+            // Temporarily disable auto-sync so unparenting doesn't trigger
+            // a physics transform sync mid-frame. Restore immediately after.
+            bool prevAutoSync = Physics.autoSyncTransforms;
+            Physics.autoSyncTransforms = false;
+            _hipRigidbody.transform.SetParent(null);
+            Physics.autoSyncTransforms = prevAutoSync;
+            _hipUnparented = true;
+
+            Debug.Log("[Movement] Hip unparented from root — physics decoupled");
         }
 
         private void FixedUpdate()
@@ -68,10 +101,33 @@ namespace RagdollRealms.Systems.Player
             if (!_initialized) { Initialize(); return; }
             if (!_movementEnabled) return;
 
+            // Sync root to hip BEFORE other systems read transform.position.
+            // Since hip is unparented, this only moves root (no physics impact).
+            if (_hipUnparented)
+                SyncRootToHip();
+
             UpdateGroundCheck();
             CheckLanding();
             UpdateMovement();
             UpdateSprintState();
+        }
+
+        private void SyncRootToHip()
+        {
+            Vector3 hipPos = _hipRigidbody.position;
+            transform.position = new Vector3(hipPos.x, transform.position.y, hipPos.z);
+        }
+
+        /// <summary>
+        /// Sync root to hip after physics so root is always at the ragdoll.
+        /// Since hip is unparented, this only moves root — no child rigidbody impact.
+        /// </summary>
+        private void LateUpdate()
+        {
+            if (!_initialized || !_hipUnparented || _hipRigidbody == null) return;
+
+            Vector3 hipPos = _hipRigidbody.position;
+            transform.position = new Vector3(hipPos.x, transform.position.y, hipPos.z);
         }
 
         private void UpdateGroundCheck()
@@ -105,6 +161,7 @@ namespace RagdollRealms.Systems.Player
             if (inputMagnitude < 0.01f)
             {
                 MovementDirection = Vector3.zero;
+                _stepController?.SetDesiredMovement(Vector3.zero, 0f);
                 return;
             }
 
@@ -136,11 +193,10 @@ namespace RagdollRealms.Systems.Player
                 );
             }
 
-            // Move root transform directly — hip joints lock linear axes,
-            // so physics-based movement (velocity/MovePosition) gets fought by constraints.
-            // Transform movement shifts the entire joint system as a unit.
+            // Feed desired movement to the step controller.
+            // Movement comes from leg stance forces, not hip velocity.
             float speed = _config.MoveSpeed * (IsSprinting ? _config.SprintMultiplier : 1f);
-            transform.position += MovementDirection * speed * Time.fixedDeltaTime;
+            _stepController?.SetDesiredMovement(MovementDirection, speed);
         }
 
         private void PublishSpeedIfChanged(float speed)

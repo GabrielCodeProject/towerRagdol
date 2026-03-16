@@ -162,9 +162,11 @@ namespace RagdollRealms.Debugging
                             $"  Joint spring NOW: {joint.slerpDrive.positionSpring}");
                     }
 
+                    #if UNITY_EDITOR
                     // BRUTE FORCE TEST: directly zero the joint drive to prove physics works
                     Debug.Log("[WobbleTest] BRUTE FORCE: zeroing joint drive directly for 2 seconds");
                     StartCoroutine(BruteForceWobble(joint, jointIndex, body, force));
+                    #endif
                     return;
                 }
             }
@@ -172,6 +174,7 @@ namespace RagdollRealms.Debugging
         Debug.LogWarning("[WobbleTest] Bone not found for nudge");
     }
 
+    #if UNITY_EDITOR
     private System.Collections.IEnumerator BruteForceWobble(ConfigurableJoint joint, int jointIndex, Rigidbody body, Vector3 force)
     {
         // Completely kill the joint drive — bone should go fully limp
@@ -200,6 +203,7 @@ namespace RagdollRealms.Debugging
         if (wasEnabled) _animFollower?.SetEnabled(true);
         Debug.Log("[WobbleTest] BRUTE FORCE ended — restoring animation");
     }
+    #endif
 
     private void ToggleDualSkeletonVisibility()
     {

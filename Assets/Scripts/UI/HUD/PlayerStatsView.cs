@@ -20,6 +20,9 @@ namespace RagdollRealms.UI.HUD
         [SerializeField] private Text _levelLabel;
         [SerializeField] private Image _xpBarFill;
 
+        [Header("Player")]
+        [SerializeField] private int _targetPlayerId;
+
         private IEventBus _eventBus;
         private Action<OnPlayerHealthChanged> _onHealthChanged;
         private Action<OnPlayerManaChanged> _onManaChanged;
@@ -40,6 +43,8 @@ namespace RagdollRealms.UI.HUD
 
         private void HandleHealthChanged(OnPlayerHealthChanged evt)
         {
+            if (evt.PlayerId != _targetPlayerId) return;
+
             if (_healthBarFill != null)
                 _healthBarFill.fillAmount = evt.Max > 0f ? Mathf.Clamp01(evt.Current / evt.Max) : 0f;
 
@@ -49,6 +54,8 @@ namespace RagdollRealms.UI.HUD
 
         private void HandleManaChanged(OnPlayerManaChanged evt)
         {
+            if (evt.PlayerId != _targetPlayerId) return;
+
             if (_manaBarFill != null)
                 _manaBarFill.fillAmount = evt.Max > 0f ? Mathf.Clamp01(evt.Current / evt.Max) : 0f;
 
@@ -58,6 +65,8 @@ namespace RagdollRealms.UI.HUD
 
         private void HandleXpChanged(OnPlayerXpChanged evt)
         {
+            if (evt.PlayerId != _targetPlayerId) return;
+
             if (_levelLabel != null)
                 _levelLabel.text = $"Lv.{evt.Level}";
 

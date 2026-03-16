@@ -26,7 +26,7 @@ namespace RagdollRealms.Systems.Phases
         private Action<OnPlayerReadyRequested> _onPlayerReadyRequested;
 
         public PhaseType CurrentPhase { get; private set; }
-        public PhaseType PreviousPhase { get; internal set; }
+        public PhaseType PreviousPhase { get; private set; }
         public float PrepareTimeRemaining { get; internal set; }
         public int CurrentWaveNumber { get; internal set; }
         public int EnemiesKilled { get; private set; }
@@ -114,7 +114,6 @@ namespace RagdollRealms.Systems.Phases
             if (_readyPlayers.Count >= requiredCount)
             {
                 _readyPlayers.Clear();
-                PreviousPhase = PhaseType.Prepare;
                 TransitionTo<DefendState>();
             }
         }
@@ -131,16 +130,16 @@ namespace RagdollRealms.Systems.Phases
 
         internal void TransitionTo<T>() where T : IState
         {
+            PreviousPhase = CurrentPhase;
             var phaseType = StateToPhaseType(typeof(T));
             CurrentPhase = phaseType;
             _stateMachine.SetState<T>();
         }
 
-        internal void CheckCoreDestroyed(OnCoreHit evt, PhaseType fromPhase)
+        internal void CheckCoreDestroyed(OnCoreHit evt)
         {
             if (evt.RemainingHp <= 0f)
             {
-                PreviousPhase = fromPhase;
                 TransitionTo<GameOverState>();
             }
         }

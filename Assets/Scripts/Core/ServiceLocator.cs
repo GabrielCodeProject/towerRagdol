@@ -66,6 +66,17 @@ namespace RagdollRealms.Core
             return _services.ContainsKey(typeof(T));
         }
 
+        /// <summary>
+        /// Creates a fresh ServiceLocator for unit tests. Replaces the current Instance.
+        /// </summary>
+        public static ServiceLocator CreateTestInstance()
+        {
+            var go = new GameObject("ServiceLocator");
+            var locator = go.AddComponent<ServiceLocator>();
+            Instance = locator;
+            return locator;
+        }
+
         private void OnDestroy()
         {
             if (Instance == this)

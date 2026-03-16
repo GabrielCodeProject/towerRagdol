@@ -39,18 +39,7 @@ namespace RagdollRealms.Tests
     {
         public static ServiceLocator SetUpServiceLocator()
         {
-            var go = new GameObject("ServiceLocator");
-            var locator = go.AddComponent<ServiceLocator>();
-
-            var field = typeof(ServiceLocator).GetField("Instance",
-                System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
-            if (field != null)
-                field.SetValue(null, locator);
-
-            var instanceProp = typeof(ServiceLocator).GetProperty("Instance",
-                System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
-
-            return locator;
+            return ServiceLocator.CreateTestInstance();
         }
 
         public static void TearDownServiceLocator()

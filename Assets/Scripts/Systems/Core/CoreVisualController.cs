@@ -27,6 +27,7 @@ namespace RagdollRealms.Systems.CoreBase
         [Header("Audio")]
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private AudioClip _damageAlarmClip;
+        [SerializeField] private AudioClip _shieldBreakClip;
 
         private IEventBus _eventBus;
         private Action<OnCoreHealthChanged> _onHealthChanged;
@@ -92,6 +93,12 @@ namespace RagdollRealms.Systems.CoreBase
                 var color = _shieldMaterial.color;
                 color.a = ratio * 0.5f;
                 _shieldMaterial.color = color;
+            }
+
+            if (evt.MaxShield > 0f && evt.CurrentShield <= 0f
+                && _audioSource != null && _shieldBreakClip != null)
+            {
+                _audioSource.PlayOneShot(_shieldBreakClip);
             }
         }
 

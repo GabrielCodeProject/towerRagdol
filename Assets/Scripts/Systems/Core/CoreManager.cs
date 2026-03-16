@@ -174,7 +174,7 @@ namespace RagdollRealms.Systems.CoreBase
         {
             if (_eventBus != null)
             {
-                _eventBus?.Unsubscribe(_onPhaseChanged);
+                _eventBus.Unsubscribe(_onPhaseChanged);
             }
 
             if (ServiceLocator.Instance == null) return;

@@ -37,6 +37,17 @@ namespace RagdollRealms.Content
         [SerializeField] private float _balanceSensitivity = 1f;
         [SerializeField] private float _getUpSpringMultiplier = 2f;
 
+        [Header("Procedural Step")]
+        [SerializeField] private float _strideLength = 0.6f;
+        [SerializeField] private float _stepHeight = 0.3f;
+        [SerializeField] private float _swingForce = 12f;
+        [SerializeField] private float _liftForce = 8f;
+        [SerializeField] private float _stancePushForce = 15f;
+        [SerializeField] private float _minStanceTime = 0.15f;
+        [SerializeField] private float _footGroundCheckDist = 0.15f;
+        [SerializeField] private float _swingDuration = 0.4f;
+        [SerializeField] private float _hipToGroundOffset = 0.9f;
+
         [Header("Collision Response")]
         [SerializeField] private float _collisionSpringReduction = 0.95f;
         [SerializeField] private float _collisionRecoverySpeed = 2f;
@@ -66,6 +77,16 @@ namespace RagdollRealms.Content
 
         public float BalanceSensitivity => _balanceSensitivity;
         public float GetUpSpringMultiplier => _getUpSpringMultiplier;
+
+        public float StrideLength => _strideLength;
+        public float StepHeight => _stepHeight;
+        public float SwingForce => _swingForce;
+        public float LiftForce => _liftForce;
+        public float StancePushForce => _stancePushForce;
+        public float MinStanceTime => _minStanceTime;
+        public float FootGroundCheckDist => _footGroundCheckDist;
+        public float SwingDuration => _swingDuration;
+        public float HipToGroundOffset => _hipToGroundOffset;
 
         public float CollisionSpringReduction => _collisionSpringReduction;
         public float CollisionRecoverySpeed => _collisionRecoverySpeed;

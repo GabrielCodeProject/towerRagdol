@@ -29,7 +29,11 @@ namespace RagdollRealms.Debugging
                 yield break;
             }
 
-            _eventBus = ServiceLocator.Instance.Get<IEventBus>();
+            if (!ServiceLocator.Instance.TryGet(out _eventBus))
+            {
+                Debug.LogError("[PhaseTestRunner] IEventBus not found.");
+                yield break;
+            }
 
             Debug.Log("[PhaseTestRunner] Starting game...");
             _phaseManager.StartGame();

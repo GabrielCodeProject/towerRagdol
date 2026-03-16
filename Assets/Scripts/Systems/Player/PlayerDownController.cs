@@ -93,7 +93,7 @@ namespace RagdollRealms.Systems.Player
             if (_activeRevives.Count == 0) return;
 
             float reviveDuration = _config.ReviveDuration;
-            var completed = new List<int>();
+            var completed = new List<(int downedId, int reviverId)>();
 
             foreach (var kvp in _activeRevives)
             {
@@ -105,14 +105,14 @@ namespace RagdollRealms.Systems.Player
 
                 if (state.Progress >= 1f)
                 {
-                    completed.Add(downedId);
-                    _eventBus.Publish(new OnPlayerRevived(downedId, state.ReviverId));
+                    completed.Add((downedId, state.ReviverId));
                 }
             }
 
-            foreach (int id in completed)
+            foreach (var (downedId, reviverId) in completed)
             {
-                _activeRevives.Remove(id);
+                _activeRevives.Remove(downedId);
+                _eventBus.Publish(new OnPlayerRevived(downedId, reviverId));
             }
         }
 

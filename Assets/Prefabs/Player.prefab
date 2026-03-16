@@ -2042,6 +2042,9 @@ GameObject:
   - component: {fileID: 4806560520690540997}
   - component: {fileID: 1224004341408106255}
   - component: {fileID: 4995688480485241426}
+  - component: {fileID: 854674763351013843}
+  - component: {fileID: 1375332558016199812}
+  - component: {fileID: 4827399929792247937}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2210,6 +2213,50 @@ MonoBehaviour:
   _pushForce: 80
   _explosionForce: 120
   _pushDirection: {x: 0, y: 0, z: -1}
+--- !u!114 &854674763351013843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4691720429928441170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69543548338716e43bbf286641dd371f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RagdollRealms.Debugging.RagdollGravityGizmo
+  _sphereRadius: 0.12
+  _arrowLength: 1.5
+--- !u!114 &1375332558016199812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4691720429928441170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2f943de0af66f544810359afbfa743a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RagdollRealms.Systems::RagdollRealms.Systems.Ragdoll.ProceduralStepController
+  _groundMask:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &4827399929792247937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4691720429928441170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa301fd4c2d3d3b46ac52267b736d4c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RagdollRealms.Debugging.RagdollJointDebugger
+  _dragForce: 300
+  _torqueForce: 50
+  _impulseStrength: 5
 --- !u!1 &4993840782188208132
 GameObject:
   m_ObjectHideFlags: 0

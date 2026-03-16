@@ -58,7 +58,6 @@ namespace RagdollRealms.Systems.Phases.States
 
             if (_timeRemaining <= 0f)
             {
-                _manager.PreviousPhase = PhaseType.Prepare;
                 _manager.TransitionTo<DefendState>();
             }
         }

@@ -46,14 +46,13 @@ namespace RagdollRealms.Systems.Phases.States
         {
             if (_transitioned) return;
             _transitioned = true;
-            _manager.PreviousPhase = PhaseType.Defend;
             _manager.TransitionTo<TransitionState>();
         }
 
         private void HandleCoreHit(OnCoreHit evt)
         {
             if (_transitioned) return;
-            _manager.CheckCoreDestroyed(evt, PhaseType.Defend);
+            _manager.CheckCoreDestroyed(evt);
         }
     }
 }
